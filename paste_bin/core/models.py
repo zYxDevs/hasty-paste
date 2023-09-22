@@ -36,9 +36,10 @@ class PasteMeta(PasteMetaVersion):
 
     @property
     def is_expired(self) -> bool:
-        if self.expire_dt is not None and self.expire_dt.replace(tzinfo=None) < datetime.utcnow():
-            return True
-        return False
+        return (
+            self.expire_dt is not None
+            and self.expire_dt.replace(tzinfo=None) < datetime.utcnow()
+        )
 
     @classmethod
     def extract_from_line(cls, line: str | bytes) -> "PasteMeta":
@@ -69,8 +70,7 @@ class PasteMeta(PasteMetaVersion):
         """
         if self.expire_dt:
             now = datetime.utcnow()
-            remaining = self.expire_dt - now
-            return remaining
+            return self.expire_dt - now
 
     class Config:
         json_loads = json.loads

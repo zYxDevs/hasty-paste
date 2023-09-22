@@ -31,9 +31,7 @@ def loads(v, **kw):
     """
     json loads, using accelerator if available
     """
-    if ACCELERATOR_AVAILABLE:
-        return _json.loads(v)
-    return _json.loads(v, **kw)
+    return _json.loads(v) if ACCELERATOR_AVAILABLE else _json.loads(v, **kw)
 
 
 class CustomJSONProvider(JSONProvider):

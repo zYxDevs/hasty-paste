@@ -23,21 +23,22 @@ class CliController:
                 print("no command given, using '--help' to get help")
 
     async def command_view(self, args):
-        if args.list:
-            paste_ids = self._storage.read_all_paste_ids()
-            if args.expired:
-                async for id_ in paste_ids:
+        if not args.list:
+            return
+        paste_ids = self._storage.read_all_paste_ids()
+        if args.expired:
+            async for id_ in paste_ids:
+                paste_path = self._storage._create_paste_path(id_)
+                meta = await self._storage.read_paste_meta(id_)
+                if meta is not None and meta.is_expired:
+                    print(paste_path if args.locate else id_)
+        else:
+            async for id_ in paste_ids:
+                if args.locate:
                     paste_path = self._storage._create_paste_path(id_)
-                    meta = await self._storage.read_paste_meta(id_)
-                    if meta is not None and meta.is_expired:
-                        print(paste_path if args.locate else id_)
-            else:
-                async for id_ in paste_ids:
-                    if args.locate:
-                        paste_path = self._storage._create_paste_path(id_)
-                        print(paste_path)
-                    else:
-                        print(id_)
+                    print(paste_path)
+                else:
+                    print(id_)
 
     async def command_cleanup(self, args):
         if args.all:
