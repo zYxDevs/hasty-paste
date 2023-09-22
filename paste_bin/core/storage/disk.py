@@ -38,8 +38,7 @@ def get_all_paste_ids_from_part(root_path: Path, id_part: str) -> Generator[str,
 
 def get_all_paste_ids(root_path: Path) -> Generator[str, None, None]:
     for id_part in get_all_paste_id_parts(root_path):
-        for full_id in get_all_paste_ids_from_part(root_path, id_part):
-            yield full_id
+        yield from get_all_paste_ids_from_part(root_path, id_part)
 
 
 class DiskStorage(BaseStorage):
@@ -106,8 +105,7 @@ class DiskStorage(BaseStorage):
 
         try:
             async with aio_open(paste_path, "rb") as fo:
-                meta = PasteMeta.extract_from_line(await fo.readline())
-                return meta
+                return PasteMeta.extract_from_line(await fo.readline())
         except (PermissionError, PasteMetaException) as err:
             raise StorageReadException(f"failed to read paste meta for '{paste_id}'") from err
 
@@ -128,8 +126,7 @@ class DiskStorage(BaseStorage):
             async with aio_open(paste_path, "rb") as fo:
                 # TODO use tell+seek+read to save memory while checking for newline
                 _ = await fo.readline()
-                raw_paste = await fo.read()
-                return raw_paste
+                return await fo.read()
         except PermissionError as err:
             raise StorageReadException(f"failed to read paste raw for '{paste_id}'") from err
 

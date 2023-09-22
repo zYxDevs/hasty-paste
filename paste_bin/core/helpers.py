@@ -49,9 +49,7 @@ def create_paste_id(long: bool = False) -> str:
         :param long: Whether to use the long id, defaults to False
         :return: The generated id
     """
-    if long:
-        return gen_id(PASTE_ID_LONG_LEN)
-    return gen_id(PASTE_ID_SHORT_LEN)
+    return gen_id(PASTE_ID_LONG_LEN) if long else gen_id(PASTE_ID_SHORT_LEN)
 
 
 def handle_known_exceptions(func):

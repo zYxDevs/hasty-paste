@@ -62,8 +62,6 @@ async def get_new_paste():
         except PasteHandlerException:
             # skip clone, if handler encounted an error
             logger.exception("cloning paste encounted an error")
-            pass
-
     return await render_template(
         "new.jinja",
         default_expires_at=default_expires_at,
