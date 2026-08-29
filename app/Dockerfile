@@ -16,7 +16,7 @@ FROM node-base AS node-build
     RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
     RUN pnpm run build
 
-FROM golang:1.25-alpine AS go-build
+FROM golang:1.26-alpine AS go-build
     WORKDIR /opt/hasty-paste
 
     COPY . .
