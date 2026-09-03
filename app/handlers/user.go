@@ -106,6 +106,9 @@ func (h *UserHandler) GetPasteAttachment(w http.ResponseWriter, r *http.Request)
 	w.Header().Add("Content-Type", attachment.MimeType)
 	w.Header().Add("ETag", attachment.Checksum)
 	w.Header().Del("Set-Cookie") // HACK session provider could interfere with cache
+	w.Header().Add("X-Content-Type-Options", "nosniff")
+	w.Header().Add("X-Frame-Options", "SAMEORIGIN")
+	w.Header().Add("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
 	if visibility == "private" {
 		w.Header().Add("Cache-Control", "private, no-transform, max-age=3600")
 	} else {
