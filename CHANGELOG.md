@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-09-03
+### Changed
+- bump deps
+### Fixed
+- security vulnerability GHSA-2cw9-vm9g-7qqg; XSS via attachment
+
 ## [2.4.0] - 2026-05-04
 ### Added
 - Closes #151; enable line numbers for source code pastes
